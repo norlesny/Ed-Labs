@@ -1,39 +1,29 @@
-import numpy as np
-
-
-def add_coeffs(coeffs, step=0.1):
-    base_coeffs = np.arange(0, 1.001, step)
+def add_coeffs(coeff, step=0.1):
     new_coeffs = []
 
-    if len(coeffs) == 0:
-        for x in base_coeffs:
-            new_coeffs.append([x])
-    else:
-        for i in range(len(coeffs)):
-            for x in base_coeffs:
-                new_coeffs.append(coeffs[i] + [x])
+    new_coeff = 0
+    while coeff[-1] >= 0:
+        new_coeffs.append(coeff+[new_coeff])
+
+        coeff[-1] -= step
+        new_coeff += step
 
     return new_coeffs
 
 
-def remove_invalid(coeffs):
-    valid_coeffs = []
-    for coeff in coeffs:
-        if sum(coeff) == 1:
-            valid_coeffs.append(coeff)
-
-    return valid_coeffs
-
-
 def generate_coeffs(dimension, step=0.1):
-    coeffs = []
-    if dimension < 1:
-        return coeffs
+    if dimension <= 0:
+        return []
 
-    for i in range(dimension):
-        coeffs = add_coeffs(coeffs, step)
+    if dimension == 1:
+        return [1]
 
-    coeffs = remove_invalid(coeffs)
+    coeffs = [[1]]
+    for i in range(dimension-1):
+        new_coeffs = []
+        for c in coeffs:
+            new_coeffs.extend(add_coeffs(c, step))
+
+        coeffs = new_coeffs
 
     return coeffs
-
