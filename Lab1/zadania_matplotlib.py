@@ -45,7 +45,7 @@ def convex_comb_general(points, limit=1.0, res_arange=0.1, tabs=""):
     """
 
     new_points = []
-    coeffs = generate_coeffs(len(points))
+    coeffs = generate_coeffs(len(points), res_arange)
     # Iterating over all coefficients
     for i in range(len(coeffs)):
         current_coeffs = coeffs[i]
@@ -92,6 +92,15 @@ def draw_convex_combination_3d(points, sides=None, color_z=True, res_arange=0.1)
     ax.set_zlabel('Z')
     cc_points = convex_comb_general(points, res_arange=res_arange)
     # TODO: Zadanie 4.3: Zaimplementuj rysowanie wykresu 3D. Możesz dodatkowo zaimplementować kolorowanie względem wartości na osi z.
+    x = []
+    y = []
+    z = []
+    for point in cc_points:
+        x.append(point[0])
+        y.append(point[1])
+        z.append(point[2])
+
+    ax.scatter(x, y, z)
 
     # Drawing contour of the figure (with plt.plot).
     if sides is not None:
