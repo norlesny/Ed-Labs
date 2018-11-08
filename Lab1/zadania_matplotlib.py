@@ -116,16 +116,29 @@ def draw_convex_combination_3d(points, sides=None, color_z=True, res_arange=0.1)
 
 def draw_vector_addition(vectors, coeffs):
     start = np.array([0.0, 0.0])
+    end = np.array([0.0, 0.0])
     for v, c in zip(vectors, coeffs):
         assert isinstance(v, np.ndarray)
         assert isinstance(c, float)
         # TODO: Zadanie 4.4: Wzorując się na poniższym użyciu funkcji quiver, napisz kod rysujący czarne wektory składowe.
         # TODO: Pamiętaj podczas dodawania o ich przeskalowaniu przez odpowiedni współczynnik.
         # TODO: Po każdej iteracji start powinno zawierać punkt w którym kończyło się ostatnie przesunięcie.
+        end[0] = start[0] + v[0] * c
+        end[1] = start[1] + v[1] * c
+
+        print("start: "+str(start[0])+" "+str(start[1])+"; end: "+str(end[0])+" "+str(end[1]))
+
+        plt.quiver(start[0], start[1], end[0] - start[0], end[1] - start[1], width=0.008, color="green",
+                   scale_units='xy', angles='xy', scale=1, zorder=4)
+
+        start = end.copy()
+
+    plt.quiver(0, 0, start[0], start[1], width=0.008, color="magenta", scale_units='xy',
+               angles='xy', scale=1, zorder=4)
 
     # Drawing the final vector being a linear combination of the given vectors.
     # The third and the fourth arguments of the quiver function indicate movement (dx, dy), not the ending point.
-    plt.quiver(0.0, 0.0, start[0], start[1], width=0.008, color="magenta", scale_units='xy', angles='xy', scale=1, zorder=4)
+    # plt.quiver(0.0, 0.0, start[0], start[1], width=0.008, color="magenta", scale_units='xy', angles='xy', scale=1, zorder=4)
     plt.margins(0.05)
 
 
