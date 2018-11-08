@@ -100,7 +100,14 @@ def draw_convex_combination_3d(points, sides=None, color_z=True, res_arange=0.1)
         y.append(point[1])
         z.append(point[2])
 
-    ax.scatter(x, y, z)
+    if color_z:
+        colors = []
+        for i in np.linspace(0, 1, len(z)):
+            colors.append([1-i, i, 0])
+
+        ax.scatter(x, y, z, c=colors)
+    else:
+        ax.scatter(x, y, z)
 
     # Drawing contour of the figure (with plt.plot).
     if sides is not None:
