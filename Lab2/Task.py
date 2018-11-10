@@ -1,16 +1,28 @@
+import argparse
+import sys
+
+sys.path.append('../')
+
 from Lab2.solver import CsvDataParser
-from Lab2.solver.DataEntry import DataEntry
-from Lab2.solver.KNNSolver import KNNSolver
 from Lab2.solver.Metric import Metric
+from Lab2.solver.KNNSolver import KNNSolver
 
-solver = KNNSolver(5, Metric.MANHATTAN)
+parser = argparse.ArgumentParser(description="k-NN algorithm")
 
-test_data = DataEntry([13.5,3.12,2.62,24,123,1.4,1.57,.22,1.25,8.60,.59,1.3,500])
+parser.add_argument('data_file', type=str, help='path of the file with the data set')
+parser.add_argument('-k', type=int, default=5, help='the value of k in the algorithm')
+parser.add_argument('-m', type=str, default='euclides', choices=['euclides', 'manhattan'],
+                    help='the metric to be used')
+parser.add_argument('-d', type=int, default=-1, help='the index of the classification attribute')
 
-data_set = CsvDataParser.read_data("wine.data", 0)
+args = parser.parse_args()
+
+solver = KNNSolver(int(args.__getattribute__('k')), Metric.from_str(args.__getattribute__('m')))
+
+data_set = CsvDataParser.read_data(args.__getattribute__('data_file'))
 solver.set_learning_data(data_set)
-result = solver.classify(test_data)
 
-print(str(result))
+result = solver.classify(data_set[100])
+print(result)
 
 print("Finished")
