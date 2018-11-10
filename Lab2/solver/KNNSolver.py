@@ -32,7 +32,7 @@ class KNNSolver:
             distances_map.append([entry.classification, data.distance(entry)])
 
         #  2. posortować odległości
-        distances_map.sort(key=KNNSolver.take_second, reverse=True)
+        distances_map.sort(key=KNNSolver.take_second)
 
         #  3. wybrać k elementów z posortowanej liczby
         classifications = {}
