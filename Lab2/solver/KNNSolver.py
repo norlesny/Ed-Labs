@@ -29,7 +29,7 @@ class KNNSolver:
         #  1. obliczyć odległości pomiędzy learning_data a data
         distances_map = []
         for entry in self._learning_data:
-            distances_map.append([entry.classification, data.distance(entry)])
+            distances_map.append([entry.classification, data.distance(entry, self._metric)])
 
         #  2. posortować odległości
         distances_map.sort(key=KNNSolver.take_second)
