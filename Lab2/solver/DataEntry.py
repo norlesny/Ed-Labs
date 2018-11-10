@@ -25,7 +25,7 @@ class DataEntry:
     def _euclides_distance(zipped_attributes):
         sum = 0
         for x, y in zipped_attributes:
-            sum += (x - y) ** 2
+            sum += (float(x) - float(y)) ** 2
 
         return sum ** 0.5
 
@@ -36,3 +36,9 @@ class DataEntry:
             sum += abs(x - y)
 
         return sum
+
+    def __str__(self) -> str:
+        return "{}: {}".format(self.classification, self.attributes)
+
+    def __repr__(self) -> str:
+        return self.__str__()
