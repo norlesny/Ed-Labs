@@ -8,7 +8,8 @@ def read_data(file_name, classification_index=-1):
 
     for line in content:
         data = line.split(',')
-        classification = data.pop(classification_index)
-        result.append(DataEntry(data, classification))
+        if len(data) > 1:
+            classification = data.pop(classification_index)
+            result.append(DataEntry(data, classification))
 
     return result
