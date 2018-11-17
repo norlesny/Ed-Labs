@@ -33,3 +33,6 @@ elif testing_type == TestingType.SPLIT:
     percentage_split = float(args.__getattribute__('s'))
     # check if percentage_split is >0 and <1
     tests.split(solver, data_set, percentage_split)
+
+elif testing_type == TestingType.CROSS:
+    tests.k_fold(solver, data_set, 10)
