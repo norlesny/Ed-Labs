@@ -23,7 +23,9 @@ parser.add_argument('-s', type=float, default=0.25, help='percentage of the data
 args = parser.parse_args()
 
 solver = KNNSolver(int(args.__getattribute__('k')), Metric.from_str(args.__getattribute__('m')))
-data_set = CsvDataParser.read_data(args.__getattribute__('data_file'))
+data_file = args.__getattribute__('data_file')
+classification_index = args.__getattribute__('d')
+data_set = CsvDataParser.read_data(data_file, classification_index)
 
 testing_type = TestingType.from_string(args.__getattribute__('t'))
 if testing_type == TestingType.TRAIN:
