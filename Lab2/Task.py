@@ -33,8 +33,10 @@ if testing_type == TestingType.TRAIN:
 
 elif testing_type == TestingType.SPLIT:
     percentage_split = float(args.__getattribute__('s'))
-    # check if percentage_split is >0 and <1
-    tests.split(solver, data_set, percentage_split)
+    if 0 < percentage_split < 1:
+        tests.split(solver, data_set, percentage_split)
+    else:
+        print("Percentage split must be higher than 0 and lower than 1!")
 
 elif testing_type == TestingType.CROSS:
     tests.k_fold(solver, data_set, 10)

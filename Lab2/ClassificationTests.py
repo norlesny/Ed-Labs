@@ -67,6 +67,10 @@ def k_fold(solver, data_set, k):
         for x in temp:
             learning_set += x
 
+        if len(testing_set) == 0 or len(learning_set) == 0:
+            print("Bad data set")
+            continue
+
         accuracy_sum += base_test(solver, learning_set, testing_set)
 
     print('Accuracy: {}%'.format(accuracy_sum / k))
