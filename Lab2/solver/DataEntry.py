@@ -33,7 +33,7 @@ class DataEntry:
     def _manhattan_distance(zipped_attributes):
         sum = 0
         for x, y in zipped_attributes:
-            sum += abs(x - y)
+            sum += abs(float(x) - float(y))
 
         return sum
 
