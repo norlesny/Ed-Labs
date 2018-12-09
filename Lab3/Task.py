@@ -51,24 +51,38 @@ def highest_info_gain_index(data):
             highest_ig = ig
             highest_ig_index = a
 
-    print(highest_ig)
-    print(highest_ig_index)
+    return highest_ig_index
 
+
+def filter_data(data, index):
+    filtered_data = data.copy()
+    for d in filtered_data:
+        del d.attributes[index]
+
+    return filtered_data
 
 data = CsvDataParser.read_data('test2.csv')
 print(data)
 
-highest_info_gain_index(data)
+root_index = highest_info_gain_index(data)
+root = TreeNode(str(root_index))
 
-root = TreeNode('Matematyka')
-node = TreeNode('Biologia')
+root_data = [(d.attributes[root_index], d.classification) for d in data]
+print(root_data)
 
-root.add_node(3, TreeNode('NIE'))
-root.add_node(4, node)
-root.add_node(5, TreeNode('NIE'))
+distinct_values = list(set([d[0] for d in root_data]))
 
-node.add_node(3, TreeNode('TAK'))
-node.add_node(4, TreeNode('NIE'))
-node.add_node(5, TreeNode('TAK'))
+filtered_data = filter_data(data, root_index)
+
+print('filtered data')
+print(filtered_data)
+
+for v in distinct_values:
+    test = [d[1] for d in root_data if d[0] == v]
+    if entropy(test) == 0:
+        root.add_node(v, TreeNode(test[0]))
+    else:
+        pass
+
 
 print(root)
