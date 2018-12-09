@@ -61,28 +61,26 @@ def filter_data(data, index):
 
     return filtered_data
 
+
+def highest_gain_node(data):
+    root_index = highest_info_gain_index(data)
+    root = TreeNode(str(root_index))
+
+    root_data = [(d.attributes[root_index], d.classification) for d in data]
+    filtered_data = filter_data(data, root_index)
+
+    distinct_values = list(set([d[0] for d in root_data]))
+    for v in distinct_values:
+        test = [d[1] for d in root_data if d[0] == v]
+        if entropy(test) == 0:
+            root.add_node(v, TreeNode(test[0]))
+        else:
+            pass
+
+    return root
+
 data = CsvDataParser.read_data('test2.csv')
 print(data)
 
-root_index = highest_info_gain_index(data)
-root = TreeNode(str(root_index))
-
-root_data = [(d.attributes[root_index], d.classification) for d in data]
-print(root_data)
-
-distinct_values = list(set([d[0] for d in root_data]))
-
-filtered_data = filter_data(data, root_index)
-
-print('filtered data')
-print(filtered_data)
-
-for v in distinct_values:
-    test = [d[1] for d in root_data if d[0] == v]
-    if entropy(test) == 0:
-        root.add_node(v, TreeNode(test[0]))
-    else:
-        pass
-
-
+root = highest_gain_node(data)
 print(root)
