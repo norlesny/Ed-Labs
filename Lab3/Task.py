@@ -21,7 +21,22 @@ def entropy(data):
     return -sum
 
 
+def attribute_entropy(data):
+    count = len(data)
+    sum = 0
+
+    distinct_values = list(set([d[0] for d in data]))
+
+    for v in distinct_values:
+        test = [d[1] for d in data if d[0] == v]
+        sum += len(test) / count * entropy(test)
+
+    print(sum)
+
+
 data = CsvDataParser.read_data('test2.csv')
 print(data)
 
 print(entropy([d.classification for d in data]))
+
+attribute_entropy([(d.attributes[0], d.classification) for d in data])
