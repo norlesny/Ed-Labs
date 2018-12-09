@@ -1,6 +1,7 @@
 import math
 
 from Lab3 import CsvDataParser
+from Lab3.TreeNode import TreeNode
 
 
 def entropy(data):
@@ -31,12 +32,43 @@ def attribute_entropy(data):
         test = [d[1] for d in data if d[0] == v]
         sum += len(test) / count * entropy(test)
 
-    print(sum)
+    return sum
+
+
+def info_gain(whole_entropy, data):
+    return whole_entropy - attribute_entropy(data)
+
+
+def highest_info_gain_index(data):
+    whole_entropy = entropy([d.classification for d in data])
+    print(whole_entropy)
+
+    highest_ig = -1
+    highest_ig_index = -1
+    for a in range(len(data[0].attributes)):
+        ig = info_gain(whole_entropy, [(d.attributes[a], d.classification) for d in data])
+        if ig > highest_ig:
+            highest_ig = ig
+            highest_ig_index = a
+
+    print(highest_ig)
+    print(highest_ig_index)
 
 
 data = CsvDataParser.read_data('test2.csv')
 print(data)
 
-print(entropy([d.classification for d in data]))
+highest_info_gain_index(data)
 
-attribute_entropy([(d.attributes[0], d.classification) for d in data])
+root = TreeNode('Matematyka')
+node = TreeNode('Biologia')
+
+root.add_node(3, TreeNode('NIE'))
+root.add_node(4, node)
+root.add_node(5, TreeNode('NIE'))
+
+node.add_node(3, TreeNode('TAK'))
+node.add_node(4, TreeNode('NIE'))
+node.add_node(5, TreeNode('TAK'))
+
+print(root)
