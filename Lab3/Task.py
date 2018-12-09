@@ -66,6 +66,10 @@ def highest_gain_node(data):
     root_index = highest_info_gain_index(data)
     root = TreeNode(str(root_index))
 
+    # TODO do sprawdzenia
+    if len(data[0].attributes) == 0:
+        return root
+
     root_data = [(d.attributes[root_index], d.classification) for d in data]
     filtered_data = filter_data(data, root_index)
 
@@ -75,12 +79,17 @@ def highest_gain_node(data):
         if entropy(test) == 0:
             root.add_node(v, TreeNode(test[0]))
         else:
-            pass
+            node = highest_gain_node(filtered_data)
+            root.add_node(v, node)
 
     return root
+
 
 data = CsvDataParser.read_data('test2.csv')
 print(data)
 
 root = highest_gain_node(data)
 print(root)
+
+# TODO Dla każdego atrybutu zebrać i udostępnić wszystkie możliwe wartośći
+# Na starcie przejść po wszystkim i pozbierać wartości
