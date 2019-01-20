@@ -3,7 +3,6 @@ import os
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-import sklearn as sn
 
 def pca_sklearn(data, n_comp=None):
     """Reduces dimensionality using decomposition.PCA class from scikit-learn library.
@@ -21,7 +20,6 @@ def pca_sklearn(data, n_comp=None):
     # TODO: Implement PCA using scikit-learn library, class: sklearn.decomposition.PCA
 
     from sklearn import decomposition
-    from sklearn import datasets
 
     pca = decomposition.PCA(n_components=n_comp)
 
