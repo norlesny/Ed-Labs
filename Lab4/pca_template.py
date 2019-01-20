@@ -3,7 +3,7 @@ import os
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-
+import sklearn as sn
 
 def pca_sklearn(data, n_comp=None):
     """Reduces dimensionality using decomposition.PCA class from scikit-learn library.
@@ -17,9 +17,19 @@ def pca_sklearn(data, n_comp=None):
     assert n_comp <= data.shape[1], "The number of components cannot be greater than the number of features"
     if n_comp is None:
         n_comp = data.shape[1]
+
     # TODO: Implement PCA using scikit-learn library, class: sklearn.decomposition.PCA
-    # TODO: Return the transformed data.
-    return None
+
+    from sklearn import decomposition
+    from sklearn import datasets
+
+    pca = decomposition.PCA(n_components=n_comp)
+
+    pca.fit(data)
+
+    td = pca.transform(data)
+
+    return td
 
 
 
@@ -37,8 +47,7 @@ def pca_manual(data, n_comp=None):
         n_comp = data.shape[1]
 
     # TODO: 1) Adjust the data so that the mean of every column is equal to 0.
-    m, n = data.shape
-    # mean center the data
+
     data -= data.mean(axis=0)
 
     # TODO: 2) Compute the covariance matrix. You can use the function from numpy (numpy.cov), or multiply appropriate matrices.
@@ -47,34 +56,36 @@ def pca_manual(data, n_comp=None):
 
     print("\nCOVARIANCE MATRIX:")
 
-    R = np.cov(data, rowvar=False)
+    cm = np.cov(data, rowvar=False)
 
     # TODO: 3) Calculate the eigenvectors and eigenvalues of the covariance matrix.
     # You may use np.linalg.eig, which returns a tuple (eigval, eigvec).
     # Make sure that eigenvectors are unit vectors (PCA needs unit vectors).
 
-    evals, evecs = np.linalg.eigh(R)
+    evals, evecs = np.linalg.eigh(cm)
 
     # TODO: 4) Sort eigenvalues (and their corresponding eigenvectors) in the descending order (e.g. by using argsort),
     #          and construct the matrix K with eigenvectors in the columns.
 
-    idx = np.argsort(evals)[::-1]
+    K = np.argsort(evals)[::-1]
 
     print("\nSORTED EIGEN VALUES:")
+    print(K)
 
-    evecs = evecs[:, idx]
+    evecs = evecs[:, K]
 
     print("\nSORTED EIGEN VECTORS:")
+    print(evecs);
 
-    evals = evals[idx]
+    evals = evals[K]
 
     # TODO: 5) Select the components (n_comp).
 
-    evecs = evecs[:, n_comp]
+    evecs = evecs[:, :n_comp]
 
     # TODO: 6) Calculate the transformed data.
 
-    td = np.dot(evecs.T, data.T).T, evals, evecs
+    td = np.dot(evecs.T, data.T).T
 
     # TODO: 7) Calculate the covariance matrix of the transformed data.
 
@@ -82,10 +93,10 @@ def pca_manual(data, n_comp=None):
 
     cmtd = np.cov(td, rowvar=False)
 
+    print(cmtd)
+
     # TODO: 8) Return the transformed data.
     return td
-
-
 
 def plot_pca_result_2d(X, Y1, Y2):
     assert Y1.shape == Y2.shape
