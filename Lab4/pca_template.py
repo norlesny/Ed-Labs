@@ -68,14 +68,15 @@ def pca_manual(data, n_comp=None):
     K = np.argsort(evals)[::-1]
 
     print("\nSORTED EIGEN VALUES:")
-    print(K)
+
+    evals = evals[K]
+
+    print(evals)
 
     evecs = evecs[:, K]
 
     print("\nSORTED EIGEN VECTORS:")
     print(evecs);
-
-    evals = evals[K]
 
     # TODO: 5) Select the components (n_comp).
 
